@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using WebClient;
 using WebClient.SyncDataServices.Http;
 
 
 #region Configuration
-
-var services = new ServiceCollection().AddHttpClient<ICommandDataCustomer, HttpCommandDataCustomer>();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
@@ -21,8 +18,7 @@ menuList.Add("1. Get customer by Id");
 menuList.Add("2. Generate and save new customer");
 menuList.Add("3. Exit");
 
-bool isWork = true;
-while (isWork)
+while (true)
 {
     Console.WriteLine();
     Console.WriteLine("Main Menu:");
@@ -51,7 +47,7 @@ while (isWork)
 
             if (Int64.TryParse(customerId, out var id))
             {
-                var getCustomer = new HttpCommandDataCustomer(new HttpClient(), config).GetCustomer(id);
+                var getCustomer = new CustomerWebClient(config).GetCustomer(id);
 
                 Console.WriteLine();
                 Console.WriteLine("Customer:");
@@ -72,7 +68,7 @@ while (isWork)
         var newGenCustomer = new CustomerCreateRequest(StringGeneration.Create(), StringGeneration.Create());
         Console.WriteLine($"Generated customer: FirstName = {newGenCustomer.Firstname}, LastName = {newGenCustomer.Lastname}");
 
-        var createdCustomer = new HttpCommandDataCustomer(new HttpClient(), config).SendCustomer(newGenCustomer);
+        var createdCustomer = new CustomerWebClient(config).SendCustomer(newGenCustomer);
 
         Console.WriteLine();
         Console.WriteLine("Created customer:");
@@ -83,7 +79,7 @@ while (isWork)
     }
     else //Exit
     {
-        isWork = false;
+        break;
     }
 }
 #endregion

@@ -8,14 +8,14 @@ namespace WebApi.Models
         /// ID покупателя
         /// </summary>
         [Key]
-        public long Id { get; set; }
+        public long Id { get; init; }
 
         /// <summary>
         /// Имя покупателя
         /// </summary>
         [Required]
         [MaxLength(50)]
-        public string Firstname { get; set; } = null!;
+        public string Firstname { get; init; } = null!;
 
         /// <summary>
         /// Фамилия покупателя

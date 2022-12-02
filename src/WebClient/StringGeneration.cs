@@ -1,4 +1,6 @@
-﻿namespace WebClient
+﻿using System.Text;
+
+namespace WebClient
 {
     public static class StringGeneration
     {
@@ -8,16 +10,19 @@
 
             var wordLength = Random.Shared.Next(4, 10);
 
-            string stringGen = "";
+            StringBuilder stringBuilderGen = new StringBuilder();
 
             for (int i = 0; i < wordLength; i++)
             {
                 int letterNum = Random.Shared.Next(0, letters.Length - 1);
 
-                stringGen += (i == 0 ? letters[letterNum] : letters[letterNum].ToString().ToLower());
+                //Capitalize first letter
+                var c = i == 0 ? letters[letterNum].ToString() : letters[letterNum].ToString().ToLower();
+
+                stringBuilderGen.Insert(i, c);
             }
 
-            return stringGen;
+            return stringBuilderGen.ToString();
         }
     }
 }

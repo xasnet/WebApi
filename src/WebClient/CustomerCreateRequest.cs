@@ -2,10 +2,6 @@
 {
     public class CustomerCreateRequest
     {
-        public CustomerCreateRequest()
-        {
-        }
-
         public CustomerCreateRequest(
             string firstName,
             string lastName)

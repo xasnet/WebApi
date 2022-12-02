@@ -19,8 +19,8 @@ public class CustomersController : ControllerBase
         _repository = repository;
     }
 
-    [HttpGet("{id:long}", Name = "GetCustomerByIdAsync")]
-    public async Task<ActionResult<CustomerReadDto>> GetCustomerByIdAsync([FromRoute] long id)
+    [HttpGet("{id:long}", Name = "GetCustomerById")]
+    public async Task<ActionResult<CustomerReadDto>> GetCustomerById([FromRoute] long id)
     {
         var customer = await _repository.GetCustomerByIdAsync(id);
 
@@ -41,6 +41,6 @@ public class CustomersController : ControllerBase
 
         var CustomerReadDto = _mapper.Map<CustomerReadDto>(customer);
 
-        return CreatedAtRoute(nameof(GetCustomerByIdAsync), new { Id = CustomerReadDto.Id }, CustomerReadDto);
+        return CreatedAtRoute(nameof(GetCustomerById), new { Id = CustomerReadDto.Id }, CustomerReadDto);
     }
 }

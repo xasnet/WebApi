@@ -4,14 +4,14 @@ using System.Text.Json;
 
 namespace WebClient.SyncDataServices.Http
 {
-    public class HttpCommandDataCustomer : ICommandDataCustomer
+    public class CustomerWebClient : ICustomerWebClient
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
 
-        public HttpCommandDataCustomer(HttpClient httpClient, IConfiguration configuration)
+        public CustomerWebClient(IConfiguration configuration)
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
             _configuration = configuration;
         }
 

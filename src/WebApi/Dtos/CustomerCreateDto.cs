@@ -2,7 +2,7 @@
 {
     public class CustomerCreateDto
     {
-        public string Firstname { get; set; } = null!;
+        public string Firstname { get; init; } = null!;
 
         public string Lastname { get; init; } = null!;
     }
