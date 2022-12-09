@@ -47,15 +47,24 @@ while (true)
 
             if (Int64.TryParse(customerId, out var id))
             {
-                var getCustomer = new CustomerWebClient(config).GetCustomer(id);
+                try
+                {
+                    var getCustomer = await new CustomerWebClient(config).GetCustomer(id);
 
-                Console.WriteLine();
-                Console.WriteLine("Customer:");
+                    Console.WriteLine();
+                    Console.WriteLine("Customer:");
 
-                Table<Customer>.Create(getCustomer.Result);
+                    Table<Customer>.Create(getCustomer);
 
-                Console.WriteLine();
-                break;
+                    Console.WriteLine();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Error finding customer by Id. Error message: {ex.Message}");
+                    Console.WriteLine();
+                }
             }
             else
             {
@@ -65,17 +74,43 @@ while (true)
     }
     else if (menuItem == "2")
     {
-        var newGenCustomer = new CustomerCreateRequest(StringGeneration.Create(), StringGeneration.Create());
-        Console.WriteLine($"Generated customer: FirstName = {newGenCustomer.Firstname}, LastName = {newGenCustomer.Lastname}");
+        var firstName = StringGeneration.Create();
+        var lastName = StringGeneration.Create();
 
-        var createdCustomer = new CustomerWebClient(config).SendCustomer(newGenCustomer);
+        while (true)
+        {
+            Console.WriteLine("Enter customer Id: ");
+            var customerId = Console.ReadLine()!.Trim();
 
-        Console.WriteLine();
-        Console.WriteLine("Created customer:");
+            if (Int64.TryParse(customerId, out var id))
+            {
+                var newGenCustomer = new CustomerCreateRequest(id, firstName, lastName);
+                Console.WriteLine($"Generated customer: Id = {newGenCustomer.Id}, FirstName = {newGenCustomer.Firstname}, LastName = {newGenCustomer.Lastname}");
 
-        Table<Customer>.Create(createdCustomer.Result);
+                try
+                {
+                    var createdCustomer = await new CustomerWebClient(config).SendCustomer(newGenCustomer);
 
-        Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine("Created customer:");
+
+                    Table<Customer>.Create(createdCustomer);
+
+                    Console.WriteLine();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Error creating customer by Id. Error message: {ex.Message}");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Enter correct customer id!");
+            }
+        }
     }
     else //Exit
     {

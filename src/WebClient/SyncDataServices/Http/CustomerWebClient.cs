@@ -34,7 +34,7 @@ namespace WebClient.SyncDataServices.Http
 
             var requestUri = _configuration["CreateCustomerUrl"];
 
-            using (HttpResponseMessage response = await _httpClient.PostAsync($"{requestUri}", httpContent))
+            using (HttpResponseMessage response = await _httpClient.PostAsync(requestUri, httpContent))
             {
                 if (response.IsSuccessStatusCode)
                 {

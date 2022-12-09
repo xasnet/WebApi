@@ -7,7 +7,6 @@ namespace WebApi.Models
         /// <summary>
         /// ID покупателя
         /// </summary>
-        [Key]
         public long Id { get; init; }
 
         /// <summary>

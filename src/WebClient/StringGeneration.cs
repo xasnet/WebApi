@@ -19,7 +19,7 @@ namespace WebClient
                 //Capitalize first letter
                 var c = i == 0 ? letters[letterNum].ToString() : letters[letterNum].ToString().ToLower();
 
-                stringBuilderGen.Insert(i, c);
+                stringBuilderGen.Append(c);
             }
 
             return stringBuilderGen.ToString();

@@ -35,12 +35,17 @@ public class CustomersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<CustomerReadDto>> CreateCustomerAsync([FromBody] CustomerCreateDto customerCreateDto)
     {
+        if (await _repository.GetCustomerByIdAsync(customerCreateDto.Id) != null)
+        {
+            return Conflict();
+        }
+
         var customer = _mapper.Map<Customer>(customerCreateDto);
         await _repository.CreateCustomerAsync(customer);
         await _repository.SaveChangesAsync();
 
         var CustomerReadDto = _mapper.Map<CustomerReadDto>(customer);
 
-        return CreatedAtRoute(nameof(GetCustomerById), new { Id = CustomerReadDto.Id }, CustomerReadDto);
+        return Ok(CustomerReadDto);
     }
 }
